@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Students List</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/supplier.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <div id="navbar-placeholder"></div>  
+
+  <!-- Main Content -->
+  <div class="container content-container">
+    <div class="title-row">
+      <h1>All Students</h1>
+      <input type="text" id="search" class="form-control" placeholder="Search by name, address or email...">
+    </div>
+
+    <table class="table table-striped table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th>Name</th>
+          <th>Address</th>
+          <th>City</th>
+          <th>State</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="students">
+        <!-- Rows injected by JS -->
+      </tbody>
+    </table>
+
+    <a href="supplier-add.html" class="btn btn-success">Add New Student</a>
+  </div>
+
+  <div id="footer-placeholder"></div>
+
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/supplier/supplier-list-all.js"></script>
+
+  <!-- Load Navbar + Footer -->
+  <script>
+    // Load navbar
+    fetch("../header.html")
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById("navbar-placeholder").innerHTML = data;
+
+        // Fetch auth status and set login/logout buttons
+        fetch("http://localhost:8081/session", { credentials: "include" })
+          .then(res => res.json())
+          .then(data => {
+            const navbarAuth = document.getElementById("navbar-auth-button");
+
+            if (data.isAuthenticated) {
+              const userInfo = data.userInfo;
+              const username = userInfo.username || userInfo.email;
+
+              sessionStorage.setItem("username", username);
+              sessionStorage.setItem("email", userInfo.email || "");
+              sessionStorage.setItem("sub", userInfo.sub || "");
+              sessionStorage.setItem("phone", userInfo.phone_number || "");
+              sessionStorage.setItem("access_token", data.tokens?.access_token || "");
+              sessionStorage.setItem("id_token", data.tokens?.id_token || "");
+
+              navbarAuth.innerHTML = `
+                <a href="http://localhost:8081/logout" class="btn btn-custom">Logout</a>
+              `;
+            } else {
+              navbarAuth.innerHTML = `<a href="http://localhost:8081/login" class="btn btn-custom">Login</a>`;
+            }
+          })
+          .catch(err => {
+            console.error("Error fetching auth status:", err);
+          });
+      });
+
+    // Load footer
+    fetch(`/footer`)
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('footer-placeholder').innerHTML = data;
+      });
+  </script>
+</body>
+</html>

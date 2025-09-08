@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Courses</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="../css/bootstrap.min.css" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/navbar.css" />
+  <link rel="stylesheet" href="../css/course/course.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+  .nav-link {
+    color: rgb(0, 0, 0) !important;
+  }
+  .navbar-brand {
+    color: rgb(0, 0, 0) !important;
+  }
+  </style>
+</head>
+
+<body>
+  <div id="navbar-placeholder"></div>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="main-container">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <h2>Course Actions</h2>
+        <a href="course-list-all.html" class="menu-item"><i class="fas fa-book-open"></i> View Courses</a>
+        <a href="course-enroll.html" class="menu-item"><i class="fas fa-user-plus"></i> Enroll in Course</a>
+        <a href="course-withdraw.html" class="menu-item"><i class="fas fa-user-minus"></i> Withdraw from Course</a>
+      </div>
+
+      <!-- Main -->
+      <main class="main-content">
+        <h2>Full-Time Diploma Courses</h2>
+
+        <!-- Search + Filter -->
+        <div class="search-filter-wrapper mb-4">
+          <form class="search-form" id="searchForm">
+            <input class="search-input" id="searchInput" type="search" placeholder="Search using keywords" />
+            <button class="search-btn" type="submit">
+              <i class="fas fa-search"></i>
+            </button>
+          </form>
+          <button class="filter-btn" id="toggleFilter">
+            <i class="fas fa-sliders-h"></i>
+            <span>Filter by Schools</span>
+          </button>
+        </div>
+
+        <!-- Filter Box -->
+        <div class="filter-section d-none" id="filterSection">
+          <div class="form-group mb-4">
+            <label for="schoolFilter"><strong>Filter by School:</strong></label>
+            <select class="form-control" id="schoolFilter">
+              <option value="">All Schools</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Course List -->
+        <div class="row" id="courseContainer"></div>
+
+        <!-- Pagination -->
+        <nav aria-label="Course pagination">
+          <ul class="pagination justify-content-center mt-4" id="paginationContainer"></ul>
+        </nav>
+      </main>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/jquery-3.6.0.min.js"></script>
+  <script src="../js/bootstrap.min.js"></script>
+  <script src="../js/course/course-list-all.js"></script>
+
+  <!-- Load Navbar -->
+  <script>
+    fetch('../header.html')
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('navbar-placeholder').innerHTML = data;
+
+        // After loading navbar, check auth status
+        fetch("http://localhost:8081/", { credentials: "include" })
+          .then(res => res.json())
+          .then(data => {
+            const navbarAuth = document.getElementById("navbar-auth-button");
+            if (data.isAuthenticated) {
+              const username = data.userInfo.username || data.userInfo.email;
+              sessionStorage.setItem("username", username);
+              navbarAuth.innerHTML = `<a href="http://localhost:8081/logout" class="btn btn-custom">Logout</a>`;
+            } else {
+              navbarAuth.innerHTML = `<a href="../login.html" class="btn btn-custom">Get Started</a>`;
+            }
+          });
+      });
+  </script>
+</body>
+</html>

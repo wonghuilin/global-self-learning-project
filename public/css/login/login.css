@@ -1,0 +1,99 @@
+
+/*container for the page*/
+div.container{
+    width:500px;
+}
+
+
+/*form*/
+form#loginForm{
+    width:500px;
+}
+
+button#login{
+    width: 100%;
+}
+
+/*links*/
+div#links{
+    margin: auto;
+    width: 50%;
+}
+
+/*vertical line*/
+div#verticalLine {
+    border-left: 1px solid black;
+    height: 30px;
+    bottom: -10px;
+    position: relative;
+}
+
+/*for the verifyemail form(entering the verification code)*/
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 0; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    /*overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%; /* Could be more or less, depending on screen size */
+    }
+
+/* The Close Button */
+.close {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    width: 28px;
+    }
+
+/*Gives it an effect when hovered or clicked*/
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+    }
+
+/* error msg for the model forms*/
+.errorMsg {
+    color: red;
+}
+
+/* just position for the faded message*/
+#fadedMessage{
+    display: none;
+    position: fixed;
+    background-color: #fefefe;
+    margin-top: 2%;
+    margin-left: 25%;
+    /*margin: auto ; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%; /* Could be more or less, depending on screen size */
+}
+
+/*unstyled button*/
+.unstyled-button {
+  border: none;
+  background: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+/* used to hide the change password form*/
+#changePassword{
+    display: none;
+}

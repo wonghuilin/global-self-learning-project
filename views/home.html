@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>XYZ University</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/navbar.css" />
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      font-family: "Lucida Sans", sans-serif;
+    }
+
+    .nav-link {
+      color: rgb(255, 255, 255) !important;
+    }
+
+    .navbar-brand {
+      color: rgb(255, 255, 255) !important;
+    }
+
+    .hero-section {
+      background: url("./img/university.jpg") no-repeat center center/cover;
+      height: 100vh;    
+      width: 100%;       
+      position: relative;
+      color: black;
+    }
+
+    .hero-section::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      background-color: rgba(0,0,0,0.3);
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 2;
+      color: white;
+      max-width: 600px;
+    }
+
+    .btn-custom {
+      background-color: #0051ff;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-weight: bold;
+      text-decoration: none;
+      display: inline-block;
+      margin: 10px;
+    }
+
+    .btn-custom:hover {
+      background-color: #2600be;
+      color: white;
+    }
+
+    .auth-box {
+      margin-top: 30px;
+      background: rgba(184, 224, 255, 0.9);
+      color: black;
+      border-radius: 15px;
+      padding: 15px;
+    }
+
+    .auth-box h5 {
+      font-size: 0.9rem; 
+      color: red;
+      margin: 0;
+    }
+
+    pre {
+      text-align: left;
+      background-color: #f8faf8;
+      padding: 10px;
+      border-radius: 8px;
+      max-height: 200px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="hero-section">
+    <div id="navbar-placeholder"></div>
+
+    <!-- Hero Content -->
+    <div class="hero-content">
+      <h1>Welcome to XYZ University</h1>
+      <h6>Use this app to keep track of your student inquiries</h6>
+      <br />
+
+      <!-- Dynamic Auth Info -->
+      <div id="auth-section" class="auth-box">
+        <h5>Please log in to access more features.</h5>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/js/jquery-3.6.0.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+
+  <!-- Load Navbar + Auth Buttons -->
+  <script>
+    fetch("../header.html")
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById("navbar-placeholder").innerHTML = data;
+
+        // Fetch auth status after navbar is injected
+        fetch("http://localhost:8081/session", { credentials: "include" })
+          .then(res => res.json())
+          .then(data => {
+            const authSection = document.getElementById("auth-section");
+            const navbarAuth = document.getElementById("navbar-auth-button");
+
+            if (data.isAuthenticated) {
+              const userInfo = data.userInfo;
+              const username = userInfo.username || userInfo.email;
+
+              sessionStorage.setItem("username", username);
+              sessionStorage.setItem("email", userInfo.email || "");
+              sessionStorage.setItem("sub", userInfo.sub || "");
+              sessionStorage.setItem("phone", userInfo.phone_number || "");
+              sessionStorage.setItem("access_token", data.tokens?.access_token || "");
+              sessionStorage.setItem("id_token", data.tokens?.id_token || "");
+
+              authSection.innerHTML = `
+                <h2>Welcome, ${username}</h2>
+                <p>Here are your user attributes:</p>
+                <pre>${JSON.stringify(userInfo, null, 4)}</pre>
+              `;
+
+              navbarAuth.innerHTML = `
+                <a href="http://localhost:8081/logout" class="btn btn-custom">Logout</a>
+              `;
+            } else {
+              authSection.innerHTML = `<h5>Please log in to access more features.</h5>`;
+              navbarAuth.innerHTML = `<a href="http://localhost:8081/login" class="btn btn-custom">Get Started</a>`;
+            }
+          })
+          .catch(err => {
+            console.error("Error fetching auth status:", err);
+            document.getElementById("auth-section").innerHTML = `<p>Error loading authentication status.</p>`;
+          });
+      });
+  </script>
+</body>
+</html>

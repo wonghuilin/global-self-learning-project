@@ -1,0 +1,46 @@
+/*image */
+img{
+    width:500px;
+    height:300px;
+    position:relative;
+}
+
+/*For inverted and non inverted borders of the title*/
+div#title{
+    position:absolute;
+    top:218px;
+    border-top-right-radius:12px;
+    background-color: white;
+}
+
+div#title:before {
+    content: "";
+    position: absolute;
+    top: -40px;
+    left: 0;
+    height: 40px;
+    width: 40px;
+    background: transparent;
+  
+    /* border-radius of pseudo element */
+    border-bottom-left-radius: 50%;
+  
+    /* box shadow to give the shadow of the pseudo-element the same color as the background */
+    box-shadow: 0 20px 0 0 white;
+}
+
+div#title:after {
+    content: "";
+    position: absolute;
+    top: 42px;
+    left: 350px;
+    height: 40px;
+    width: 40px;
+    background: transparent;
+  
+    /* border-radius of pseudo element */
+    border-bottom-left-radius: 50%;
+  
+    /* box shadow to give the shadow of the pseudo-element the same color as the background */
+    box-shadow: 0 20px 0 0 white;
+}

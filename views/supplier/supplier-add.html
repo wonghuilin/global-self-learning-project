@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Student</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/supplier.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <div id="navbar-placeholder"></div>
+
+  <!-- Page Content -->
+  <div class="container content-container">
+    <h1 class="mb-4">Add New Student</h1>
+
+    <!-- Error messages will appear here -->
+    <div class="mt-2"></div>
+
+    <form id="supplier-form">
+      <div id="form-fields-placeholder"></div>
+      <button id="createSupplier" type="button" class="btn btn-primary mt-3">Submit</button>
+    </form>
+  </div>
+
+  <!-- Footer -->
+  <div id="footer-placeholder"></div>
+
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Load navbar
+    fetch("/header")
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById("navbar-placeholder").innerHTML = data;
+
+        // Fetch auth status for login/logout button
+        fetch("http://localhost:8081/session", { credentials: "include" })
+          .then(res => res.json())
+          .then(data => {
+            const navbarAuth = document.getElementById("navbar-auth-button");
+            if (data.isAuthenticated) {
+              const userInfo = data.userInfo;
+              const username = userInfo.username || userInfo.email;
+              sessionStorage.setItem("username", username);
+              navbarAuth.innerHTML = `<a href="http://localhost:8081/logout" class="btn btn-custom">Logout</a>`;
+            } else {
+              navbarAuth.innerHTML = `<a href="http://localhost:8081/login" class="btn btn-custom">Login</a>`;
+            }
+          });
+      });
+
+    // Load footer
+    fetch("/footer")
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('footer-placeholder').innerHTML = data;
+      });
+
+    // Load form fields
+    fetch("/form-fields")
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('form-fields-placeholder').innerHTML = data;
+      });
+  </script>
+
+  <script src="/js/supplier/supplier-add.js"></script>
+</body>
+</html>

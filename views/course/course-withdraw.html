@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Courses</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/course/course.withdraw.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  </head>
+
+  <body>
+    <!-- Navbar -->
+    <header class="custom-navbar">
+      <nav class="nav-links">
+        <a href="../home.html">Home</a>
+        <a href="../supplier/supplier-list-all.html">Students List</a>
+        <a href="../profile/profile.html">Profile</a>
+
+        <div class="dropdown">
+          <a href="course-list-all.html" class="dropbtn">Courses <i class="fas fa-caret-down"></i></a>
+          <div class="dropdown-content">
+            <a href="course-list-all.html">View Courses</a>
+            <a href="course-enroll.html">Enroll in Course</a>
+            <a href="course-withdraw.html">Withdraw from Course</a>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-overlay">
+        <h1>Withdrawal From Course</h1> 
+        <div class="gsl-background-text">Global Self Learning</div>
+      </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="form-container">
+        <form id="withdrawForm">
+          <div class="form-group">
+            <label for="studentName">Student Name</label>
+            <input type="text" class="form-control" id="studentName" required />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="text" class="form-control" id="email" required />
+          </div>
+
+          <div class="form-group">
+            <label for="courseCode">Course Code</label>
+            <select class="form-control" id="courseCode" required>
+              <option value="">Select the Course</option>
+              <option value="S01">S01 - Diploma in Electrical & Electronic Engineering</option>
+              <option value="S02">S02 - Diploma in Computer Engineering</option>
+              <option value="S03">S03 - Diploma in Business Administration</option>
+              <option value="S04">S04 - Diploma in Data Science</option>
+              <option value="S05">S05 - Diploma in Cybersecurity</option>
+              <option value="S06">S06 - Diploma in Digital Media Design</option>
+              <option value="S07">S07 - Diploma in Mechanical Engineering</option>
+              <option value="S08">S08 - Diploma in Hospitality Management</option>
+              <option value="S09">S09 - Diploma in Applied AI and Analytics</option>
+              <option value="S10">S10 - Diploma in Financial Technology (FinTech)</option>
+              <option value="S11">S11 - Diploma in Media, Arts and Design</option>
+              <option value="S12">S12 - Diploma in Common Engineering Programme
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="reason">Reason for Withdrawal</label>
+            <textarea class="form-control" id="reason" rows="4" required></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-danger mt-3">Withdraw</button>
+        </form>
+
+        <div id="message" class="mt-3"></div>
+      </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/course/course-withdraw.js"></script>
+  </body>
+</html>

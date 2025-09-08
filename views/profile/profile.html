@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Profile</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/profile/profile.css">
+</head>
+
+<body>
+  <!-- Navbar -->
+  <div id="navbar-placeholder"></div>
+
+  <!-- Profile Section -->
+  <div class="container profile-container mt-4">
+    <div class="card">
+      <div class="card-header">
+        <h3>Student Profile</h3>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <!-- Profile Image -->
+          <div class="col-md-4 text-center">
+            <img id="profile-img" alt="Profile Img" class="img-thumbnail mb-3 profile-image">
+            <div>
+              <a href="#" id="update-image-btn" class="btn btn-primary">Update Profile Image</a>
+            </div>
+          </div>
+
+          <!-- Student Details -->
+          <div class="col-md-8">
+            <table class="table table-bordered">
+              <tr>
+                <th>ID</th>
+                <td id="student-id"></td>
+              </tr>
+              <tr>
+                <th>Name</th>
+                <td id="student-name"></td>
+              </tr>
+              <tr>
+                <th>Email</th>
+                <td id="student-email"></td>
+              </tr>
+              <tr>
+                <th>Address</th>
+                <td id="student-address"></td>
+              </tr>
+              <tr>
+                <th>City</th>
+                <td id="student-city"></td>
+              </tr>
+              <tr>
+                <th>State</th>
+                <td id="student-state"></td>
+              </tr>
+              <tr>
+                <th>Phone</th>
+                <td id="student-phone"></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div id="footer-placeholder"></div>
+
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/profile/profile.js"></script>
+
+  <!-- Load Navbar + Footer -->
+  <script>
+    // Load navbar
+    fetch("../header.html")
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById("navbar-placeholder").innerHTML = data;
+
+        // Fetch auth status and set login/logout buttons
+        fetch("http://localhost:8081/session", { credentials: "include" })
+          .then(res => res.json())
+          .then(data => {
+            const navbarAuth = document.getElementById("navbar-auth-button");
+
+            if (data.isAuthenticated) {
+              const userInfo = data.userInfo;
+              const username = userInfo.username || userInfo.email;
+
+              sessionStorage.setItem("username", username);
+              sessionStorage.setItem("email", userInfo.email || "");
+              sessionStorage.setItem("sub", userInfo.sub || "");
+              sessionStorage.setItem("phone", userInfo.phone_number || "");
+              sessionStorage.setItem("access_token", data.tokens?.access_token || "");
+              sessionStorage.setItem("id_token", data.tokens?.id_token || "");
+
+              navbarAuth.innerHTML = `
+                <a href="http://localhost:8081/logout" class="btn btn-custom">Logout</a>
+              `;
+            } else {
+              navbarAuth.innerHTML = `<a href="http://localhost:8081/login" class="btn btn-custom">Login</a>`;
+            }
+          })
+          .catch(err => {
+            console.error("Error fetching auth status:", err);
+          });
+      });
+
+    // Load footer
+    fetch(`/footer`)
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('footer-placeholder').innerHTML = data;
+      });
+  </script>
+</body>
+</html>

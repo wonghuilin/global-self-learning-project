@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Update Supplier</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/supplier.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <div id="navbar-placeholder"></div>
+
+  <!-- Page Content -->
+  <div class="container content-container">
+    <h1 class="mb-4">Update Supplier</h1>
+
+    <!-- Error messages -->
+    <div class="mt-2"></div>
+
+    <!-- Update Form -->
+    <form id="supplier-form">
+      <input type="hidden" id="id" name="id">
+      <div id="form-fields-placeholder"></div>
+      <button id="updateStudent" type="button" class="btn btn-primary mt-3">Submit</button>
+    </form>
+
+    <!-- Delete Button -->
+    <button type="button" class="float-right btn btn-danger mt-3" data-toggle="modal" data-target="#exampleModal">
+        Delete this student
+    </button>
+
+    <!-- Delete Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete student</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="modal-body-text">
+                    Are you sure you want to delete this student?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="deleteStudent" type="button" class="btn btn-danger">Delete this student</button>            
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div id="footer-placeholder"></div>
+
+  <!-- Scripts -->
+  <script src="/js/jquery-3.6.0.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+
+  <!-- Load Navbar and Footer -->
+  <script>
+    // Load navbar
+    fetch("/header")
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById("navbar-placeholder").innerHTML = data;
+
+        // Fetch auth status for login/logout button
+        fetch("http://localhost:8081/session", { credentials: "include" })
+          .then(res => res.json())
+          .then(data => {
+            const navbarAuth = document.getElementById("navbar-auth-button");
+            if (data.isAuthenticated) {
+              const userInfo = data.userInfo;
+              const username = userInfo.username || userInfo.email;
+              sessionStorage.setItem("username", username);
+              navbarAuth.innerHTML = `<a href="http://localhost:8081/logout" class="btn btn-custom">Logout</a>`;
+            } else {
+              navbarAuth.innerHTML = `<a href="http://localhost:8081/login" class="btn btn-custom">Login</a>`;
+            }
+          });
+      });
+
+    // Load footer
+    fetch("/footer")
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('footer-placeholder').innerHTML = data;
+      });
+
+    // Load form fields
+    fetch("/form-fields")
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('form-fields-placeholder').innerHTML = data;
+      });
+  </script>
+
+  <!-- External JS for update/delete functionality -->
+  <script src="/js/supplier/supplier-update.js"></script>
+</body>
+</html>

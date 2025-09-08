@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/profile/profile.css">
+    <title>Upload Profile Image</title>
+</head>
+
+<script>
+    window.addEventListener('load', () => {
+        fetch(`/footer`)
+            .then((response) => response.text())
+            .then((data) => {
+                console.log(data)
+                document.getElementById('footer-placeholder').innerHTML = data;
+        });
+    });
+</script>
+<body>
+    <div class="container">
+        <nav class="navbar navbar-expand-xl navbar-dark bg-dark">
+            <img src="/img/caps.jpeg" width="180">
+            <div><a class="navbar-brand page-title " href="/supplier/supplier-list-all.html">XYZ University</a></div>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/home.html">Home</a>
+                        <a class="nav-link" href="/supplier/supplier-list-all.html">Students list</a>
+                        <a class="nav-link" href="/course/course-list-all.html">Courses</a>
+                        <a class="nav-link" href="/profile/profile.html">Profile</a>
+                    </li>
+                </ul>
+                <button class="btn btn-outline-success"><a class="nav-link" href="/login/login.html">Login</a></button>
+            </div>
+        </nav>
+    </div>
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-header">
+                <h4>Upload Profile Image</h4>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label for="file" class="form-label">Select Image</label>
+                    <input type="file" class="form-control" id="file" accept="image/*" required />
+                </div>
+    
+                <button type="button" class="btn btn-primary" id="uploadBtn">Upload</button>
+                <a href="/profile/profile.html" class="btn btn-secondary">Cancel</a>
+    
+                <div class="mt-4">
+                    <h5>Preview:</h5>
+                    <img id="imagePreview" class="img-thumbnail" style="max-width: 200px; display: none;" />
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/js/profile/upload-image.js"></script>
+    <div id="footer-placeholder"></div>
+</body>
+</html>
